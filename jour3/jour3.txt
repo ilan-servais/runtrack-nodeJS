@@ -1,0 +1,86 @@
+show dbs
+
+        ## Job3
+
+Mongo
+
+use shop
+
+db.createCollection('product')
+
+db.product.insert({name: 'chaussure', description: 'une paire de chaussures', price: 35, quantity: 120})
+
+        ## Job4
+
+db.product.insert([{name: 'Pantalon noir', description: 'Un pantalon noir', price: 14.99, quantity: 12}, {name: 'chaussettes', description: 'chaussettes cool !', price: 6, quantity: 6}])
+
+        ## Job5
+
+db.createCollection('category')
+
+db.category.insertMany([{name: 'Vêtements'}, {name: 'Chaussures'}, {name: 'Bébé'}])
+
+        ## Job6
+
+show collections
+
+        ## Job7
+
+db.category.find()
+
+        ## Job8
+
+db.category.find().limit(2)
+
+        ## Job9
+
+db.product.find().sort({price: 1})
+
+        ## Job10
+
+db.product.find().sort({price: -1})
+
+        ## Job11
+
+db.product.find({$and: [{price: {$gt: 5}}, {quantity: {$lt: 100}}]})
+
+        ## Job12
+
+db.product.find({$or: [{price: {$gt: 14.99}}, {quantity: {$gt: 100}}]})
+
+        ## Job13
+
+db.product.find({}, {_id: 0})
+
+        ## Job14
+
+db.category.findOne()
+
+db.category.findOne({_id: ObjectId('6644e8ecb957fa0cbd6fda6f')})
+
+        ## Job15
+
+db.category.updateOne({name: 'bébé'}, {$set: {name: 'Vêtements pour enfant'}})
+
+        ## Job16
+
+db.product.updateMany({}, {$set: {category_id: null}})
+
+db.category.find().pretty()
+
+db.product.updateMany({name: "chaussure"}, {$set: {category_id: ObjectId("6644e8ecb957fa0cbd6fda70")}})
+
+db.product.updateMany({name: "Pantalon noir"}, {$set: {category_id: ObjectId("6644e8ecb957fa0cbd6fda6f")}}) 
+
+db.product.updateMany({name: "chaussettes"}, {$set: {category_id: ObjectId("6644e8ecb957fa0cbd6fda71")}})
+
+db.product.find()
+
+        ## Job17
+
+        db.category.aggregate([
+  {$lookup: {from: "product", localField: "_id", foreignField: "category_id", as: "products"}},
+  {$addFields: {nb_products: {$size: "$products"}}},
+  {$sort: {nb_products: 1}},
+  {$limit: 1}
+])
