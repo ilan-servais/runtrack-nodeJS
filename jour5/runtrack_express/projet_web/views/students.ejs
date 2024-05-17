@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Liste des étudiants</title>
+</head>
+<body>
+  <h1>Liste des étudiants</h1>
+  <ul>
+    <% students.forEach(student => { %>
+      <li>
+        <%= student.firstname %> <%= student.lastname %> (<%= student.students_number %>) - 
+        <% if (student.year_id && student.year_id.year) { %>
+          <%= student.year_id.year %>
+        <% } else { %>
+          Année inconnue
+        <% } %>
+      </li>
+    <% }) %>
+  </ul>
+</body>
+</html>
